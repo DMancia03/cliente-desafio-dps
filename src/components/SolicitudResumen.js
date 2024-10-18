@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const SolicitudResumen = ({ solicitud, verSolicitud }) => {
     return (
         <View style={styles.container}>
-            <Text><Text style={styles.bolder}>Usuario:</Text> {solicitud.nombre}</Text>
+            <Text><Text style={styles.bolder}>Cliente:</Text> {solicitud.nombre}</Text>
             <Text><Text style={styles.bolder}>Teléfono:</Text> {solicitud.telefono}</Text>
             <Text><Text style={styles.bolder}>Estado de solicitud:</Text> {solicitud.estado}</Text>
             <TouchableOpacity style={styles.buttonDetails} onPress={() => {verSolicitud(solicitud)}}>
