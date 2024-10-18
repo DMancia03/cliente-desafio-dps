@@ -9,12 +9,60 @@ const VerSolicitud = ({ navigation, route }) => {
     const [solicitud, setSolicitud] = useState(route.params.data);
 
     //Funciones
+    const guardarAprobacion = async () => {
+        await axios.put('https://api-rest-desafio-dps-747620528393.us-central1.run.app/Solicitudes/aprobar/' + solicitud.idSolicitud)
+        .then((response) => {
+            Alert.alert('Aprobación', 'Solicitud aprobada correctamente');
+            navigation.navigate('VerSolicitudes');
+        })
+        .catch((error) => {
+            Alert.alert('Error', 'No se pudo aprobar la solicitud');
+            console.error(error);
+        });
+    }
+
     const aprobarSolicitud = async () => {
-        Alert.alert('Aprobar solicitud', '¿Está seguro de aprobar la solicitud?')
+        Alert.alert(
+            'Aprobar solicitud', 
+            '¿Está seguro de aprobar la solicitud?',
+            [
+                {
+                    text: 'Aceptar',
+                    onPress: () => {guardarAprobacion()}
+                },
+                {
+                    text: 'Cancelar'
+                }
+            ]
+        );
+    }
+
+    const guardarDenegacion = async () => {
+        await axios.put('https://api-rest-desafio-dps-747620528393.us-central1.run.app/Solicitudes/rechazar/' + solicitud.idSolicitud)
+        .then((response) => {
+            Alert.alert('Denegación', 'Solicitud denegada correctamente');
+            navigation.navigate('VerSolicitudes');
+        })
+        .catch((error) => {
+            Alert.alert('Error', 'No se pudo denegar la solicitud');
+            console.error(error);
+        });
     }
 
     const denegarSolicitud = async () => {
-        Alert.alert('Denegar solicitud', '¿Está seguro de denegar la solicitud?')
+        Alert.alert(
+            'Denegar solicitud', 
+            '¿Está seguro de denegar la solicitud?',
+            [
+                {
+                    text: 'Aceptar',
+                    onPress: () => {guardarDenegacion()}
+                },
+                {
+                    text: 'Cancelar'
+                }
+            ]
+        )
     }
 
     return (
@@ -37,13 +85,25 @@ const VerSolicitud = ({ navigation, route }) => {
                     width={'100%'}
                     height={200}
                 />
+                <Text style={styles.bolder}>Producto:</Text>
                 <View style={styles.buttonGroup}>
-                    <TouchableOpacity style={styles.buttonYes} onPress={() => {aprobarSolicitud()}}>
-                        <Text><Icon name="check" size={20} /> Aprobar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonNo} onPress={() => {denegarSolicitud()}}>
-                        <Text><Icon name="cancel" size={20} /> Denegar</Text>
-                    </TouchableOpacity>
+                    {
+                        solicitud.estado == 'SOLICITADO' ?
+                        (
+                            <>
+                                <TouchableOpacity style={styles.buttonYes} onPress={() => {aprobarSolicitud()}}>
+                                    <Text><Icon name="check" size={20} /> Aprobar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.buttonNo} onPress={() => {denegarSolicitud()}}>
+                                    <Text><Icon name="cancel" size={20} /> Denegar</Text>
+                                </TouchableOpacity>
+                            </>
+                        ) : (
+                            <TouchableOpacity style={styles.buttonNo} onPress={() => {navigation.navigate('VerSolicitudes')}}>
+                                <Text><Icon name="arrow-left-circle" size={20} /> Regresar</Text>
+                            </TouchableOpacity>
+                        )
+                    }
                 </View>
             </View>
         </ScrollView>
