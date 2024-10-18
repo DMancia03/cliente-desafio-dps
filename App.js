@@ -22,7 +22,7 @@ export default function App() {
         <Stack.Screen
           name='VerSolicitud'
           component={VerSolicitud}
-          initialParams={{ id: 0 }}
+          initialParams={{ data: {} }}
           options={{
             title: 'Ver solicitud'
           }}
