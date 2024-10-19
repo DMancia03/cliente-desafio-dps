@@ -3,10 +3,16 @@ import { View, Text, Alert, TouchableOpacity, ScrollView, StyleSheet, Image } fr
 import axios from "axios";
 import colors from "../styles/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import CardContainer from "../components/CardContainer";
+import ProductContainer from "../components/ProductContainer";
+import productos from '../data/productos'
+import tarjetas from '../data/tarjetas'
 
 const VerSolicitud = ({ navigation, route }) => {
     //Variables
     const [solicitud, setSolicitud] = useState(route.params.data);
+    const tarjeta = tarjetas.riesgo_global.find(tarjeta => tarjeta.id == solicitud.producto);
+    const producto = productos.riesgo_global.find(producto => producto.id == solicitud.producto);
 
     //Funciones
     const guardarAprobacion = async () => {
@@ -103,7 +109,16 @@ const VerSolicitud = ({ navigation, route }) => {
                 {
                     solicitud.producto ? 
                     (
-                        <Text>{solicitud.producto}</Text>
+                        tarjeta ? (
+                            <CardContainer card={tarjeta} />
+                        ) : (
+                            producto ? (
+                                <ProductContainer product={producto} />
+                            ) : (
+                                <Text>{solicitud.producto}</Text>
+                            )
+                        )
+
                     ) : (
                         <Text>No se ha adjuntado el producto del usuario.</Text>
                     )
