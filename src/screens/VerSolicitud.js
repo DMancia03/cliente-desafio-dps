@@ -74,18 +74,40 @@ const VerSolicitud = ({ navigation, route }) => {
                 <Text><Text style={styles.bolder}>Ingresos:</Text> ${solicitud.ingresos}</Text>
                 <Text><Text style={styles.bolder}>Egresos:</Text> ${solicitud.egresos}</Text>
                 <Text style={styles.bolder}>Carnet:</Text>
-                <Image
-                    source={{uri: solicitud.carnetBase64}}
-                    width={'100%'}
-                    height={200}
-                />
+                {
+                    solicitud.carnetBase64 ? 
+                    (
+                        <Image
+                            source={{uri: solicitud.carnetBase64}}
+                            width={'100%'}
+                            height={200}
+                        />
+                    ) : (
+                        <Text>No se ha adjuntado el carnet del usuario.</Text>
+                    )
+                }
                 <Text style={styles.bolder}>Selfie:</Text>
-                <Image
-                    source={{uri: solicitud.selfieBase64}}
-                    width={'100%'}
-                    height={200}
-                />
+                {
+                    solicitud.selfieBase64 ? 
+                    (
+                        <Image
+                            source={{uri: solicitud.selfieBase64}}
+                            width={'100%'}
+                            height={200}
+                        />
+                    ) : (
+                        <Text>No se ha adjuntado la selfie del usuario.</Text>
+                    )
+                }
                 <Text style={styles.bolder}>Producto:</Text>
+                {
+                    solicitud.producto ? 
+                    (
+                        <Text>{solicitud.producto}</Text>
+                    ) : (
+                        <Text>No se ha adjuntado el producto del usuario.</Text>
+                    )
+                }
                 <View style={styles.buttonGroup}>
                     {
                         solicitud.estado == 'SOLICITADO' ?
